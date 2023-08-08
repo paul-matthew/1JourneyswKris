@@ -9,7 +9,7 @@
 
 import React, { useEffect } from 'react';
 import * as THREE from 'three';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+  // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import SceneInit from 'public/lib/SceneInit';
 import 'app/styles/style.css'; 
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -47,44 +47,52 @@ export default function HomeRoute() {
     });
     test.initialize();
     
-    // let loadedModel;
-    // const gltfLoader = new GLTFLoader();
-    // gltfLoader.load('./assets/shiba/plane_paper_dart/scene.gltf', (gltfScene) => {
-    //   loadedModel = gltfScene;
-    //   adjustModelBasedOnScreenSize(gltfScene);
+    let loadedModel;
+    import('three/examples/jsm/loaders/GLTFLoader.js')
+  .then(({ GLTFLoader }) => {
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load('./plane/scene.gltf', (gltfScene) => {
+      loadedModel = gltfScene;
+      adjustModelBasedOnScreenSize(gltfScene);
 
-    //   // Adjust the model's position, rotation, scale as needed
-    //   // gltfScene.scene.rotation.y = Math.PI / 8;
-    //   // gltfScene.scene.position.y = 3;
-    //   // gltfScene.scene.scale.set(1, 1, 1);
+      // Adjust the model's position, rotation, scale as needed
+      // gltfScene.scene.rotation.y = Math.PI / 8;
+      // gltfScene.scene.position.y = 3;
+      // gltfScene.scene.scale.set(1, 1, 1);
 
-    //   // Add the model to the scene
-    //   test.scene.add(gltfScene.scene);
+      // Add the model to the scene
+      test.scene.add(gltfScene.scene);
 
-    //   // Initialize AnimationMixer
-    //   const mixer = new THREE.AnimationMixer(gltfScene.scene);
+      // Initialize AnimationMixer
+      const mixer = new THREE.AnimationMixer(gltfScene.scene);
 
-    //   // Load animations from the gltfScene
-    //   const animations = gltfScene.animations;
-    //   const actions = animations.map(animation => mixer.clipAction(animation));
+      // Load animations from the gltfScene
+      const animations = gltfScene.animations;
+      const actions = animations.map(animation => mixer.clipAction(animation));
 
-    //   // Start playing the animations
-    //   actions.forEach(action => action.play());
+      // Start playing the animations
+      actions.forEach(action => action.play());
 
-    //   // Create an animate function for rendering
-    //   const animate = () => {
-    //     requestAnimationFrame(animate);
+      // Create an animate function for rendering
+      const animate = () => {
+        requestAnimationFrame(animate);
 
-    //     // Update the animation mixer
-    //     const delta = test.clock.getDelta();
-    //     mixer.update(delta);
+        // Update the animation mixer
+        const delta = test.clock.getDelta();
+        mixer.update(delta);
 
-    //     renderer.render(test.scene, test.camera);
-    //   };
+        renderer.render(test.scene, test.camera);
+      };
 
-    //   // Start the animation loop
-    //   animate();
-    // });
+      // Start the animation loop
+      animate();
+    });
+  })
+  .catch(error => {
+    // Handle any errors that might occur during the import
+    console.error('Error importing GLTFLoader:', error);
+  });
+
 
     function adjustModelBasedOnScreenSize(gltfScene) {
       const screenWidth = window.innerWidth;
