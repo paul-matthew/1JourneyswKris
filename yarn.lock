@@ -5838,6 +5838,11 @@ regjsparser@^0.8.2:
   dependencies:
     jsesc "~0.5.0"
 
+rellax@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.npmjs.org/rellax/-/rellax-1.12.1.tgz"
+  integrity sha512-XBIi0CDpW5FLTujYjYBn1CIbK2CJL6TsAg/w409KghP2LucjjzBjsujXDAjyBLWgsfupfUcL5WzdnIPcGfK7XA==
+
 remark-frontmatter@4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/remark-frontmatter/-/remark-frontmatter-4.0.1.tgz"

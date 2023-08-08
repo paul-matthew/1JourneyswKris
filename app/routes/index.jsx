@@ -1,20 +1,163 @@
-// import { useLoaderData } from "@remix-run/react";
-// import { getDataFromStrapi } from "~/api/get-data-from-strapi.server";
-
-// export async function loader() {
-//   const response = await getDataFromStrapi("faq-collections/2", "populate=*");
-//   return response.json();
-// }
-
-
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-  // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import SceneInit from 'public/lib/SceneInit';
 import 'app/styles/style.css'; 
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+import { useLoaderData } from "@remix-run/react";
+import { getDataFromStrapi } from "~/api/get-data-from-strapi.server";
+import Rellax from 'rellax';  
+import { Link } from "react-router-dom";
+
+let baseUrl = "https://julie-00182f9df30d.herokuapp.com"; //UPDATE
+
+if (process.env.NODE_ENV !== 'production') {
+  baseUrl = "http://127.0.0.1:1337";
+  console.log("This is a local build");
+} else {
+  console.log("This is a production build");
+}
+
+export async function loader() {
+  const path = "kris-collections/";
+  const query = "populate=*";
+  const response = await getDataFromStrapi(path, query);
+  let data = response.data;
+
+  if (!Array.isArray(data)) {
+    data = [data]; // Wrap data in an array if it's not already an array
+  }
+
+  data.sort((a, b) => {
+    const dateA = new Date(a.attributes.Date);
+    const dateB = new Date(b.attributes.Date);
+    return dateB - dateA; // Sort in descending order
+  });
+  console.log(data)
+  return { info: data };
+
+}
+
+// const data = {
+//   info: [
+//     {
+//       id: 1,
+//       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+//       title: "Starry Night",
+//       date: "06/06/2023",
+//     },
+//     {
+//       id: 2,
+//       image: "https://cdn.shopify.com/s/files/1/0047/4231/6066/files/The_Scream_by_Edvard_Munch_1893_800x.png",
+//       title: "The Scream",
+//       date: "05/03/23",
+//     },
+//     {
+//       id: 3,
+//       image: "/cover.jpg",
+//       title: "title2",
+//       date: "xx/yy/zz",
+//     },
+//   ],
+// };
+
+function KrisCard({ data, index }) {
+  const path_medImage = data.attributes.Image.data.attributes.formats.medium.url;
+
+  const mediumImage=`${baseUrl}${path_medImage}`; //COMMENT OUT IF USING CLOUDINARY
+  // const mediumImage = `${path_medImage}`; UNCOMMENT IF USING CLOUDINARY
+
+  const ref = useRef();
+
+  useEffect(() => {
+    new Rellax(ref.current, {
+      speed: -2,
+      xsSpeed: 0,
+      mobileSpeed: 0,
+      tabletSpeed: 0,
+    });
+  }, []);
+  if (index > 3) {
+    return null; // Skip rendering for items after the fourth index
+  }
+  return (
+    <a
+      data-rellax-speed="-2"
+      data-rellax-xs-speed="0"
+      data-rellax-mobile-speed="0"
+      data-rellax-tablet-speed="0"
+      className="rellax group col-span-2 lg:col-span-1"
+    >
+      <section className="bg-white">
+        <div className="px-0 py-2 mx-auto text-black" style={{border:'solid', borderColor:'red'}}>
+          <div className="flex flex-wrap mx-auto">
+            <div className="w-full lg:w-1/2">
+              <div className="flex flex-wrap justify-start p-4">
+                <div className="w-full mx-auto border-2 border-black shadow-whiterock">
+                  <img
+                    className="object-scale-down w-full ..."
+                    src={mediumImage}
+                    alt={data.attributes.Title}
+                  />
+
+                  <div className="px-2 py-6 lg:px-10">
+                    <h1 className="text-base font-black tracking-widest text-black lg:text-3xl font-display">{data.attributes.Title}</h1>
+                    <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{data.attributes.Date}</h2>
+
+
+                    <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md">
+                      Refers to the appearance of all the text on your website. ... It's the size of different runs of text in relation to one another, and the
+                      history behind each font family. A lot of your typography decisions will come from a designer....
+                    </p>
+                    <div className="py-4">
+                      <a
+                        href="./blogpost.html"
+                        className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock"
+                      >
+                        read more &rightarrow;
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </a>
+  );
+
+}
+
 export default function HomeRoute() {
+  const { info } = useLoaderData();
+  const [startIndex, setStartIndex] = useState(0);
+  const itemsPerPage = 4;
+  const sectionRef = useRef(null);
+
+  const handlePrevious = () => {
+    if (startIndex - itemsPerPage >= 0) {
+      setStartIndex(startIndex - itemsPerPage);
+      scrollToSection();
+    }
+  };
+
+  const handleNext = () => {
+    if (startIndex + itemsPerPage < info.length) {
+      setStartIndex(startIndex + itemsPerPage);
+      scrollToSection();
+    }
+  };
+
+  const scrollToSection = () => {
+    sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const displayedItems = info.slice(startIndex, startIndex + itemsPerPage);
+
+  const isFirstPage = startIndex === 0;
+  const isLastPage = startIndex + itemsPerPage >= info.length;
+
   useEffect(() => {
 
     const handleScroll = () => {
@@ -123,8 +266,6 @@ export default function HomeRoute() {
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      
-      //3D MODEL
 
     };
   }, []);
@@ -270,6 +411,42 @@ export default function HomeRoute() {
           </div>
         </div>
       </section>
+
+      <section ref={sectionRef} id="work" className="bg-black flex flex-wrap">
+          <div>
+            <div
+              data-rellax-speed="-1"
+              data-rellax-xs-speed="0"
+              data-rellax-mobile-speed="0"
+              className=" flex flex-wrap items-center gap-6"
+            >
+              <h2 className="text-7xl font-bold text-white xl:text-8xl" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', }}>
+                My work
+              </h2>
+              <span className="h-max rounded-full border border-white/40 px-2 py-1 text-xs tracking-wider text-white">
+                {info.length} Affiliations
+              </span>
+            </div>
+            <div>
+              {displayedItems.map((item, index) => (
+                <KrisCard key={item.id} data={item} index={index} />
+              ))}
+            </div>
+          </div>
+          {info.length > itemsPerPage && (
+            <div className="flex justify-center mt-20 space-x-4">
+              {!isFirstPage && (
+                <button className="text-white text-3xl underline" onClick={handlePrevious}>
+                  Previous
+                </button>)}
+              {!isLastPage && (
+                <a className="text-white text-3xl underline hover:text-blue-500" href="/fullportfolio">
+                  Browse Portfolio
+                </a>)}
+            </div>
+          )}
+      </section>
+
     </main>
     <footer className="bg-black">
       <div className="container flex flex-col items-center px-5 py-8 mx-auto sm:flex-row">
