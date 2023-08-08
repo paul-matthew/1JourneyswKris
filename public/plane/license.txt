@@ -1,0 +1,11 @@
+Model Information:
+* title:	Plane paper dart
+* source:	https://sketchfab.com/3d-models/plane-paper-dart-8951aa7cebbf42218f31b2e152b1f752
+* author:	Go Designer (https://sketchfab.com/godesigner)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Plane paper dart" (https://sketchfab.com/3d-models/plane-paper-dart-8951aa7cebbf42218f31b2e152b1f752) by Go Designer (https://sketchfab.com/godesigner) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
