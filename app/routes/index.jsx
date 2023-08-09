@@ -81,50 +81,34 @@ function KrisCard({ data, index }) {
     return null; // Skip rendering for items after the fourth index
   }
   return (
-    <a
-      data-rellax-speed="-2"
-      data-rellax-xs-speed="0"
-      data-rellax-mobile-speed="0"
-      data-rellax-tablet-speed="0"
-      className="rellax group col-span-2 lg:col-span-1"
-    >
-      <section className="bg-white">
-        <div className="px-0 py-2 mx-auto text-black" style={{border:'solid', borderColor:'red'}}>
-          <div className="flex flex-wrap mx-auto">
-            <div className="w-full lg:w-1/2">
-              <div className="flex flex-wrap justify-start p-4">
-                <div className="w-full mx-auto border-2 border-black shadow-whiterock">
-                  <img
-                    className="object-scale-down w-full ..."
-                    src={mediumImage}
-                    alt={data.attributes.Title}
-                  />
 
-                  <div className="px-2 py-6 lg:px-10">
-                    <h1 className="text-base font-black tracking-widest text-black lg:text-3xl font-display">{data.attributes.Title}</h1>
-                    <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{data.attributes.Date}</h2>
-
-
-                    <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md">
-                      Refers to the appearance of all the text on your website. ... It's the size of different runs of text in relation to one another, and the
-                      history behind each font family. A lot of your typography decisions will come from a designer....
-                    </p>
-                    <div className="py-4">
-                      <a
-                        href="./blogpost.html"
-                        className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock"
-                      >
-                        read more &rightarrow;
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div className="w-full lg:w-2/4">
+      <div className="flex flex-wrap justify-start p-4">
+        <div className="w-full mx-auto border-2 border-black shadow-whiterock">
+          <img
+            className="object-scale-down w-full ..."
+            src={mediumImage}
+            alt={data.attributes.Title}
+          />
+          <div className="px-2 py-6 lg:px-10">
+            <h1 className="text-base font-black tracking-widest text-black md:text-3xl lg:text-3xl font-display">{data.attributes.Title}</h1>
+            <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{data.attributes.Date}</h2>
+            <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md">
+              Refers to the appearance of all the text on your website. ... It's the size of different runs of text in relation to one another, and the
+              history behind each font family. A lot of your typography decisions will come from a designer....
+            </p>
+            <div className="py-4">
+              <a
+                href="./blogpost.html"
+                className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock"
+              >
+                read more &rightarrow;
+              </a>
             </div>
           </div>
         </div>
-      </section>
-    </a>
+      </div>
+    </div>
   );
 
 }
@@ -377,7 +361,7 @@ export default function HomeRoute() {
       </button>
     </div>
       </section>
-      <section className="bg-white">
+      {/* <section className="bg-white">
         <div className="container px-5 py-24 mx-auto text-black">
           <div className="flex flex-wrap mx-auto">
             <div className="w-full lg:w-2/4">
@@ -408,43 +392,74 @@ export default function HomeRoute() {
                 </div>
               </div>
             </div>
+            <div className="w-full lg:w-2/4">
+              <div className="flex flex-wrap justify-start p-4">
+                <div className="w-full mx-auto border-2 border-black shadow-whiterock">
+                  <img
+                    className="object-scale-down w-full ..."
+                    src="https://cdn.dribbble.com/users/13774/screenshots/13954919/media/ec679d065d64e95d5b9017d05ca14bcb.png?compress=1&resize=800x600"
+                    alt=""
+                  />
+
+                  <div className="px-2 py-6 lg:px-10">
+                    <h1 className="text-base font-black tracking-widest text-black lg:text-3xl font-display">blog entry title</h1>
+
+                    <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md">
+                      Refers to the appearance of all the text on your website. ... It's the size of different runs of text in relation to one another, and the
+                      history behind each font family. A lot of your typography decisions will come from a designer....
+                    </p>
+                    <div className="py-4">
+                      <a
+                        href="./blogpost.html"
+                        className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock"
+                      >
+                        read more &rightarrow;
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section ref={sectionRef} id="work" className="bg-black flex flex-wrap">
-          <div>
-            <div
-              data-rellax-speed="-1"
-              data-rellax-xs-speed="0"
-              data-rellax-mobile-speed="0"
-              className=" flex flex-wrap items-center gap-6"
-            >
-              <h2 className="text-7xl font-bold text-white xl:text-8xl" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', }}>
-                My work
-              </h2>
-              <span className="h-max rounded-full border border-white/40 px-2 py-1 text-xs tracking-wider text-white">
-                {info.length} Affiliations
-              </span>
-            </div>
-            <div>
-              {displayedItems.map((item, index) => (
-                <KrisCard key={item.id} data={item} index={index} />
-              ))}
-            </div>
-          </div>
+      <section ref={sectionRef} className="bg-white">
+        <div className="container px-5 py-24 mx-auto text-black">
+        <div className="flex flex-wrap mx-auto">
+  <div
+    data-rellax-speed="-1"
+    data-rellax-xs-speed="0"
+    data-rellax-mobile-speed="0"
+    className="flex items-center gap-6"
+  >
+    <h2 className="text-7xl font-bold text-white xl:text-8xl" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+      Affiliations
+    </h2>
+    <span className="h-max rounded-full border border-black/40 px-2 py-1 text-xs tracking-wider text-black">
+      {info.length} Total 
+    </span>
+  </div>
+</div>
+
+<div className="flex flex-wrap mx-auto">
+  {displayedItems.map((item, index) => (
+    <KrisCard key={item.id} data={item} index={index} />
+  ))}
+</div>
           {info.length > itemsPerPage && (
-            <div className="flex justify-center mt-20 space-x-4">
-              {!isFirstPage && (
-                <button className="text-white text-3xl underline" onClick={handlePrevious}>
-                  Previous
-                </button>)}
-              {!isLastPage && (
-                <a className="text-white text-3xl underline hover:text-blue-500" href="/fullportfolio">
-                  Browse Portfolio
-                </a>)}
-            </div>
+          <div className="flex justify-center mt-20 space-x-4">
+            {!isFirstPage && (
+              <button className="text-white text-3xl underline" onClick={handlePrevious}>
+                Previous
+              </button>)}
+            {!isLastPage && (
+              <a className="text-white text-3xl underline hover:text-blue-500" href="/fullportfolio">
+                Browse Portfolio
+              </a>)}
+          </div>
           )}
+        </div>
       </section>
 
     </main>
@@ -455,7 +470,7 @@ export default function HomeRoute() {
             <div className="inline-flex items-center">
               <div className="w-2 h-2 p-2 mr-2 rounded-full bg-beta-300"></div>
               <h2 className="text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform tracking-relaxed hover:text-beta-300">
-                wickedtemplates
+                JourneyswithKris
               </h2>
             </div>
           </div>
@@ -466,7 +481,7 @@ export default function HomeRoute() {
             >@wickedtemplates</a>
         </p>
         <nav className="inline-flex items-center justify-start gap-2 mt-4 lg:mt-0">
-          <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
+          {/* <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
             <a href="https://www.wickedtemplates.com/templates.html" rel="noopener noreferrer">Templates</a>
           </p>
           <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
@@ -474,6 +489,11 @@ export default function HomeRoute() {
           </p>
           <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
             <a href="https://www.wickedtemplates.com/pricing.html" rel="noopener noreferrer">Pricing</a>
+          </p> */}
+          <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0">
+          <a href="https://sketchfab.com/3d-models/plane-paper-dart-8951aa7cebbf42218f31b2e152b1f752">Plane Paper Dart </a> by 
+          <a href="https://sketchfab.com/Sketchfab"> Sketchfab</a> licensed under 
+          <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0</a>
           </p>
         </nav>
         <span className="inline-flex justify-center mt-4 sm:ml-auto sm:mt-0 sm:justify-start lg:ml-auto">
