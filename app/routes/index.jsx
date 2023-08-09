@@ -9,7 +9,7 @@ import { getDataFromStrapi } from "~/api/get-data-from-strapi.server";
 import Rellax from 'rellax';  
 import { Link } from "react-router-dom";
 
-let baseUrl = "https://julie-00182f9df30d.herokuapp.com"; //UPDATE
+let baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
 
 if (process.env.NODE_ENV !== 'production') {
   baseUrl = "http://127.0.0.1:1337";
@@ -436,9 +436,9 @@ export default function HomeRoute() {
     <h2 className="text-7xl font-bold text-white xl:text-8xl" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
       Affiliations
     </h2>
-    <span className="h-max rounded-full border border-black/40 px-2 py-1 text-xs tracking-wider text-black">
+    {/* <span className="h-max rounded-full border border-black/40 px-2 py-1 text-xs tracking-wider text-black">
       {info.length} Total 
-    </span>
+    </span> */}
   </div>
 </div>
 
