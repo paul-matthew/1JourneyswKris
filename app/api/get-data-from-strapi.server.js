@@ -10,7 +10,7 @@
       console.log("This is a local build yo");
     } else {
       baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE SECTION API TOKEN
-      apiToken = "a217fcdce3aae794d40d333ccbfff4df8dceb1301f87a03c4c1811def9ed9dd44c84d5542c4e16554aaadfdfd9de170e42ddde35cef0b6688cd64922082cd3a90835b4cd037bebb8aaea3a6ae43f773199a71485de75644e2f73b52babd3d6bd27da0137dd6fb4561410e0bf3cb0a5836f9152b3fc98abcb740653fc91315ec8";
+      apiToken = "81215aca64cd92af2705e286cd018e20a0de82bc2df5db3e7eb1b83c62eddc01098ebc0d66acdde8e480f277c2f7d85c69b79e9b899267cf398649a1b8b508fd82a3e52bf9174421af2b94a3790c973178b833bd5cd4b003d6a0e0953302c51db9e2f7657c46573412d835983ca2a2e84c9d58695ccee501110b6765cfdf128c";
       console.log("This is a production build");
     }
     const url = `${baseUrl}/api/${path}?${query}`;
