@@ -13,9 +13,9 @@ let baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
 
 if (process.env.NODE_ENV !== 'production') {
   baseUrl = "http://127.0.0.1:1337";
-  console.log("This is a local build");
+  console.log("This is a local build; index.jsx");
 } else {
-  console.log("This is a production build");
+  console.log("This is a production build; index.jsx");
 }
 
 export async function loader() {
@@ -33,7 +33,6 @@ export async function loader() {
     const dateB = new Date(b.attributes.Date);
     return dateB - dateA; // Sort in descending order
   });
-  console.log(data)
   return { info: data };
 
 }

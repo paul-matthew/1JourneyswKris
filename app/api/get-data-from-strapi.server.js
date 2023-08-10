@@ -14,11 +14,14 @@
       console.log("This is a production build");
     }
     const url = `${baseUrl}/api/${path}?${query}`;
+    console.log(url);
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${apiToken}`,
       },
     });
+    console.log(response);
+
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
