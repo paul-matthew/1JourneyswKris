@@ -14,9 +14,24 @@ import styles from "./styles/app.css"
 
 export const meta = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Journeys with Kris",
   viewport: "width=device-width,initial-scale=1",
+  meta: [
+    {
+      property: "og:title",
+      content: "Journeys with Kris",
+    },
+    {
+      property: "og:description",
+      content: "Journeys with Kris - travel content and information to help you travel the world while maintaining your job.",
+    },
+    {
+      property: "og:image",
+      content: "url(/kris-og.jpg)", 
+    },
+  ],
 });
+
 
 export function loader() {
   return json({

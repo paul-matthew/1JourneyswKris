@@ -84,24 +84,29 @@ function KrisCard({ data, index }) {
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
         <div className="w-full mx-auto border-2 border-black shadow-whiterock">
+        <div className="image-container relative overflow-hidden">
           <img
-            className="object-scale-down w-full ..."
+            className="object-scale-down w-full transition-transform duration-300 transform-gpu hover:scale-110"
             src={mediumImage}
             alt={data.attributes.Title}
           />
+          </div>
           <div className="px-2 py-6 lg:px-10">
             <h1 className="text-base font-black tracking-widest text-black md:text-3xl lg:text-3xl font-display">{data.attributes.Title}</h1>
             <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{data.attributes.Date}</h2>
             <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+              {data.attributes.Description
+                .split(' ')
+                .slice(0, 15)
+                .join(' ')}
+              {data.attributes.Description.split(' ').length > 15 ? ' ...' : ''}
             </p>
             <div className="py-4">
-              <a
-                href="./blogpost.html"
-                className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock"
-              >
-                read more &rightarrow;
-              </a>
+            <Link
+              to="/blog"
+              className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock bg-black hover:bg-gray-500 text-white rounded-md py-3 px-6 inline-block"
+            >Read more &#8594;
+            </Link>
             </div>
           </div>
         </div>
@@ -287,30 +292,24 @@ export default function HomeRoute() {
         <nav className="flex-col flex-grow hidden pb-4 md:pb-0 md:flex md:justify-end md:flex-row z-10">
           <ul className="items-center inline-block list-none lg:inline-flex">
             <li>
-              <a
+              <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                href="./index.html"
+                to="./"
               >home
-              </a>
+              </Link>
             </li>
 
             <li>
-              <a
+              <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                href="./blogpost.html"
-                >blog post</a>
+                to="./blog"
+                >blog post</Link>
             </li>
             <li>
-              <a
+              <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                href="./now.html"
-                >now</a>
-            </li>
-            <li>
-              <a
-                className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                href="./contact.html"
-                >contact</a>
+                to="./contact"
+                >contact</Link>
             </li>
           </ul>
         </nav>
