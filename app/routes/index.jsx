@@ -93,8 +93,7 @@ function KrisCard({ data, index }) {
             <h1 className="text-base font-black tracking-widest text-black md:text-3xl lg:text-3xl font-display">{data.attributes.Title}</h1>
             <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{data.attributes.Date}</h2>
             <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md">
-              Refers to the appearance of all the text on your website. ... It's the size of different runs of text in relation to one another, and the
-              history behind each font family. A lot of your typography decisions will come from a designer....
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
             </p>
             <div className="py-4">
               <a
@@ -355,14 +354,12 @@ export default function HomeRoute() {
           <span className="text-6xl leading-none uppercase lg:text-12xl">KRIS</span>
         </h1>
       </div>
-      <button
-  onClick={() => {
-    document.getElementById('posts').scrollIntoView({ behavior: 'smooth' });
-  }}
-  className="absolute bottom-20 right-8 bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-md shadow-xl transform z-20"
->
-  See my Posts
-</button>
+      <button onClick={() => {
+        document.getElementById('posts').scrollIntoView({ behavior: 'smooth' });
+      }}
+      className="absolute bottom-36 right-8 bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-md shadow-xl transform z-20"
+      >See my Posts
+      </button>
     </div>
       </section>
       {/* <section className="bg-white">
@@ -437,7 +434,7 @@ export default function HomeRoute() {
     data-rellax-mobile-speed="0"
     className="flex items-center gap-6"
   >
-    <h2 className="text-7xl font-bold text-white xl:text-8xl" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+    <h2 className="text-7xl font-bold text-black xl:text-8xl" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
       Affiliations
     </h2>
     {/* <span className="h-max rounded-full border border-black/40 px-2 py-1 text-xs tracking-wider text-black">
