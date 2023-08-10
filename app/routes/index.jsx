@@ -103,7 +103,7 @@ function KrisCard({ data, index }) {
             </p>
             <div className="py-4">
             <Link
-              to="/blog"
+              to="/404"
               className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock bg-black hover:bg-gray-500 text-white rounded-md py-3 px-6 inline-block"
             >Read more &#8594;
             </Link>
