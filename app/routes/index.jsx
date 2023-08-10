@@ -63,8 +63,8 @@ export async function loader() {
 function KrisCard({ data, index }) {
   const path_medImage = data.attributes.Image.data.attributes.formats.medium.url;
 
-  const mediumImage=`${baseUrl}${path_medImage}`; //COMMENT OUT IF USING CLOUDINARY
-  // const mediumImage = `${path_medImage}`; UNCOMMENT IF USING CLOUDINARY
+  // const mediumImage=`${baseUrl}${path_medImage}`; //UNCOMMENT OUT IF USING CLOUDINARY
+  const mediumImage = `${path_medImage}`; //COMMENT IF USING CLOUDINARY
 
   const ref = useRef();
 
@@ -225,7 +225,7 @@ export default function HomeRoute() {
 
       if (screenWidth < 500) {
         gltfScene.scene.rotation.y = Math.PI / 0.79;
-        gltfScene.scene.position.y = 4;
+        gltfScene.scene.position.y = -4;
         gltfScene.scene.position.x = 5;
         gltfScene.scene.scale.set(1, 1, 1);
       } else if (screenWidth >= 500 && screenWidth < 768) {
@@ -355,9 +355,14 @@ export default function HomeRoute() {
           <span className="text-6xl leading-none uppercase lg:text-12xl">KRIS</span>
         </h1>
       </div>
-      <button className="absolute bottom-20 right-8 bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-md shadow-xl transform">
-        See my Posts
-      </button>
+      <button
+  onClick={() => {
+    document.getElementById('posts').scrollIntoView({ behavior: 'smooth' });
+  }}
+  className="absolute bottom-20 right-8 bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-md shadow-xl transform z-20"
+>
+  See my Posts
+</button>
     </div>
       </section>
       {/* <section className="bg-white">
@@ -423,7 +428,7 @@ export default function HomeRoute() {
         </div>
       </section> */}
 
-      <section ref={sectionRef} className="bg-white">
+      <section id='posts' ref={sectionRef} className="bg-white">
         <div className="container px-5 py-24 mx-auto text-black">
         <div className="flex flex-wrap mx-auto">
   <div
