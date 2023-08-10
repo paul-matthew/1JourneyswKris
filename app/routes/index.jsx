@@ -302,13 +302,13 @@ export default function HomeRoute() {
             <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./blog"
+                to="./404"
                 >blog post</Link>
             </li>
             <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./contact"
+                to="./404"
                 >contact</Link>
             </li>
           </ul>
