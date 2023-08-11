@@ -103,7 +103,7 @@ function KrisCard({ data, index }) {
             </p>
             <div className="py-4">
             <Link
-              to="/404"
+              to="/blog"
               className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock bg-black hover:bg-gray-500 text-white rounded-md py-3 px-6 inline-block"
             >Read more &#8594;
             </Link>
@@ -121,6 +121,7 @@ export default function HomeRoute() {
   const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 4;
   const sectionRef = useRef(null);
+  let loadedModel;
 
   const handlePrevious = () => {
     if (startIndex - itemsPerPage >= 0) {
@@ -154,7 +155,7 @@ export default function HomeRoute() {
       zoomSection.style.transform = `scale(${zoomFactor})`;
 
       const translateX = Math.min(20, scrollOffset * 0.05);
-      const translateY = Math.min(1, scrollOffset * 0.05);
+      const translateY = Math.min(-1, scrollOffset * 0.05);
       const translateZ = Math.max(-Math.PI, Math.min(Math.PI, scrollOffset * 0.05)); 
 
       if (loadedModel) {
@@ -163,7 +164,7 @@ export default function HomeRoute() {
           child.rotation.z = translateZ;
           child.position.y = translateY;
         });
-      }
+      } 
 
     };
     window.addEventListener('scroll', handleScroll);
@@ -179,6 +180,7 @@ export default function HomeRoute() {
     
     let loadedModel;
     import('three/examples/jsm/loaders/GLTFLoader.js')
+    
   .then(({ GLTFLoader }) => {
     const gltfLoader = new GLTFLoader();
     gltfLoader.load('./plane/scene.gltf', (gltfScene) => {
@@ -223,7 +225,6 @@ export default function HomeRoute() {
     console.error('Error importing GLTFLoader:', error);
   });
 
-
     function adjustModelBasedOnScreenSize(gltfScene) {
       const screenWidth = window.innerWidth;
 
@@ -250,10 +251,17 @@ export default function HomeRoute() {
       }
       // gltfScene.scene.classList.add('model-transition');
     }
-
+  
     return () => {
       window.removeEventListener('scroll', handleScroll);
-
+      if (loadedModel) {
+        loadedModel.scene.traverse(child => {
+          if (child.isMesh) {
+            child.material.dispose();
+            child.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 });
+          }
+        });
+      }
     };
   }, []);
 
@@ -294,7 +302,7 @@ export default function HomeRoute() {
             <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./"
+                to="./index"
               >home
               </Link>
             </li>
@@ -302,13 +310,13 @@ export default function HomeRoute() {
             <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./404"
+                to="./blog"
                 >blog post</Link>
             </li>
             <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./404"
+                to="./contact"
                 >contact</Link>
             </li>
           </ul>
