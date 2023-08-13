@@ -13,9 +13,9 @@ let baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
 
 if (process.env.NODE_ENV !== 'production') {
   baseUrl = "http://127.0.0.1:1337";
-  console.log("This is a local build; index.jsx");
+  console.log("This is a local build");
 } else {
-  console.log("This is a production build; index.jsx");
+  console.log("This is a production build");
 }
 
 export async function loader() {
@@ -28,44 +28,13 @@ export async function loader() {
     data = [data]; // Wrap data in an array if it's not already an array
   }
 
-  data.sort((a, b) => {
-    const dateA = new Date(a.attributes.Date);
-    const dateB = new Date(b.attributes.Date);
-    return dateB - dateA; // Sort in descending order
-  });
   return { info: data };
 
 }
 
-// const data = {
-//   info: [
-//     {
-//       id: 1,
-//       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
-//       title: "Starry Night",
-//       date: "06/06/2023",
-//     },
-//     {
-//       id: 2,
-//       image: "https://cdn.shopify.com/s/files/1/0047/4231/6066/files/The_Scream_by_Edvard_Munch_1893_800x.png",
-//       title: "The Scream",
-//       date: "05/03/23",
-//     },
-//     {
-//       id: 3,
-//       image: "/cover.jpg",
-//       title: "title2",
-//       date: "xx/yy/zz",
-//     },
-//   ],
-// };
-
-function KrisCard({ data, index }) {
+function KrisCard({ data}) {
   const path_medImage = data.attributes.Image.data.attributes.formats.medium.url;
-
-  // const mediumImage=`${baseUrl}${path_medImage}`; //UNCOMMENT OUT IF USING CLOUDINARY
-  const mediumImage = `${path_medImage}`; //COMMENT IF USING CLOUDINARY
-
+  const mediumImage = `${path_medImage}`;
   const ref = useRef();
 
   useEffect(() => {
@@ -76,27 +45,25 @@ function KrisCard({ data, index }) {
       tabletSpeed: 0,
     });
   }, []);
-  if (index > 3) {
-    return null; // Skip rendering for items after the fourth index
-  }
+ 
   return (
 
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
         <div className="w-full mx-auto border-2 border-black shadow-whiterock" style={{width: "80vw", height: "100vh", border:"solid black"}}>
-        <div className="image-container relative overflow-hidden" style={{ width: "80vw", height: "70vh", border: "solid black" }}>
-  <img
-    className="object-cover w-full h-full transition-transform duration-300 transform-gpu hover:scale-110"
-    style={{ objectPosition: "center top-30" }}  // Adjust this line
-    src={mediumImage}
-    alt={data.attributes.Title}
-  />
-</div>
-
+          <div className="image-container relative overflow-hidden" style={{ width: "80vw", height: "70vh", border: "solid black" }}>
+            <img
+              className="object-cover w-full h-full transition-transform duration-300 transform-gpu hover:scale-110"
+              style={{ objectPosition: "center top-30" }}  // Adjust this line
+              src={mediumImage}
+              alt={data.attributes.Title}
+            />
+          </div>
           <div className="flex justify-between p-4">
             <h1 className="text-base font-black tracking-widest text-black md:text-3xl lg:text-3xl font-display">{data.attributes.Title}</h1>
             <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{data.attributes.Date}</h2>
-            </div><div>
+          </div>
+          <div>
             <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md px-4">
               {data.attributes.Description}
             </p>
