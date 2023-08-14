@@ -10,15 +10,15 @@ import { useParams } from "react-router-dom";
 
 export async function loader() {
 
-  if (typeof window !== 'undefined') {
-    console.log("This is a production build");
-    baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
-    currenturl= location.pathname;
-  }
-  else {
+  
+  if (process.env.NODE_ENV !== 'production') {
     baseUrl = "http://127.0.0.1:3000";
     currenturl='http://localhost:3000/post?id=1';//UPDATE, so not hard coded
     console.log("This is a local build");
+  } else {
+    console.log("This is a production build");
+    baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
+    currenturl= location.pathname;
   }
   
 let url = new URL(currenturl);
