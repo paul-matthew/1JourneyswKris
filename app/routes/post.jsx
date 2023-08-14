@@ -12,16 +12,17 @@ export async function loader() {
 
   if (process.env.NODE_ENV !== 'production') {
     baseUrl = "http://127.0.0.1:3000";
-    currenturl='http://localhost:3000/post?id=1';
+    currenturl='http://localhost:3000/post?id=1';//NEEDS TO BE UPDATED TO NOT BE HARD CODED
+    url = new URL(currenturl);
     console.log("This is a local build");
   } else {
     console.log("This is a production build");
     baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
-    currenturl=window.location.href;
+    url = new URL(window.location.href);
   
   }
   
-let url = new URL(currenturl);
+
 let searchParams = new URLSearchParams(url.search);
 let id = searchParams.get('id');
 
