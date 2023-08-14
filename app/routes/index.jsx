@@ -23,6 +23,7 @@ export async function loader() {
   const query = "populate=*";
   const response = await getDataFromStrapi(path, query);
   let data = response.data;
+  console.log(data);
 
   if (!Array.isArray(data)) {
     data = [data]; // Wrap data in an array if it's not already an array
@@ -60,12 +61,10 @@ export async function loader() {
 //   ],
 // };
 
-function KrisCard({ data, index }) {
+export function KrisCard({ data, index }) {
   const path_medImage = data.attributes.Image.data.attributes.formats.medium.url;
-
   // const mediumImage=`${baseUrl}${path_medImage}`; //UNCOMMENT OUT IF USING CLOUDINARY
   const mediumImage = `${path_medImage}`; //COMMENT IF USING CLOUDINARY
-
   const ref = useRef();
 
   useEffect(() => {
@@ -79,8 +78,8 @@ function KrisCard({ data, index }) {
   if (index > 3) {
     return null; // Skip rendering for items after the fourth index
   }
-  return (
 
+  return (
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
         <div className="w-full mx-auto border-2 border-black shadow-whiterock">
@@ -103,7 +102,7 @@ function KrisCard({ data, index }) {
             </p>
             <div className="py-4">
             <Link
-              to="/blog"
+              to={`/post?id=${data.id}`}
               className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar hover:text-black font-base text-beta-300 shadow-whiterock bg-black hover:bg-gray-500 text-white rounded-md py-3 px-6 inline-block"
             >Read more &#8594;
             </Link>

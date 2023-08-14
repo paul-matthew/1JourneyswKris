@@ -1,39 +1,48 @@
 import React, { useRef, useEffect, useState } from 'react';
-import * as THREE from 'three';
-import SceneInit from 'public/lib/SceneInit';
 import 'app/styles/style.css'; 
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
 import { useLoaderData } from "@remix-run/react";
 import { getDataFromStrapi } from "~/api/get-data-from-strapi.server";
 import Rellax from 'rellax';  
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-let baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
 
-if (process.env.NODE_ENV !== 'production') {
-  baseUrl = "http://127.0.0.1:1337";
-  console.log("This is a local build");
-} else {
-  console.log("This is a production build");
-}
 
 export async function loader() {
+
+  if (process.env.NODE_ENV !== 'production') {
+    baseUrl = "http://127.0.0.1:3000";
+    currenturl='http://localhost:3000/post?id=1';
+    console.log("This is a local build");
+  } else {
+    console.log("This is a production build");
+    baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
+    currenturl=window.location.href;
+  
+  }
+  
+let url = new URL(currenturl);
+let searchParams = new URLSearchParams(url.search);
+let id = searchParams.get('id');
+
+  console.log("XXXXXXYYYYY",id);
   const path = "kris-collections/";
   const query = "populate=*";
   const response = await getDataFromStrapi(path, query);
   let data = response.data;
+  let oneitem = data.find(item => item.id === parseInt(id));
+  console.log("trying thisXXX",oneitem);
 
-  if (!Array.isArray(data)) {
-    data = [data]; // Wrap data in an array if it's not already an array
+  if (!Array.isArray(oneitem)) {
+    oneitem = [oneitem]; // Wrap data in an array if it's not already an array
   }
 
-  return { info: data };
+  return { info: oneitem };
 
 }
 
-function KrisCard({ data}) {
-  const path_medImage = data.attributes.Image.data.attributes.formats.medium.url;
+export function KrisSingleCard({ oneitem}) {
+  const path_medImage = oneitem.attributes.Image.data.attributes.formats.medium.url;
   const mediumImage = `${path_medImage}`;
   const ref = useRef();
 
@@ -47,7 +56,6 @@ function KrisCard({ data}) {
   }, []);
  
   return (
-
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
         <div className="w-full mx-auto border-2 border-black shadow-whiterock" style={{width: "80vw", height: "100vh", border:"solid black"}}>
@@ -56,16 +64,16 @@ function KrisCard({ data}) {
               className="object-cover w-full h-full transition-transform duration-300 transform-gpu hover:scale-110"
               style={{ objectPosition: "center top-30" }}  // Adjust this line
               src={mediumImage}
-              alt={data.attributes.Title}
+              alt={oneitem.attributes.Title}
             />
           </div>
           <div className="flex justify-between p-4">
-            <h1 className="text-base font-black tracking-widest text-black md:text-3xl lg:text-3xl font-display">{data.attributes.Title}</h1>
-            <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{data.attributes.Date}</h2>
+            <h1 className="text-base font-black tracking-widest text-black md:text-3xl lg:text-3xl font-display">{oneitem.attributes.Title}</h1>
+            <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{oneitem.attributes.Date}</h2>
           </div>
           <div>
             <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md px-4">
-              {data.attributes.Description}
+              {oneitem.attributes.Description}
             </p>
             <div className="py-4">
             </div>
@@ -77,7 +85,7 @@ function KrisCard({ data}) {
 
 }
 
-export default function HomeRoute() {
+export default function FullPage() {
   const { info } = useLoaderData();
   const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 1;
@@ -160,7 +168,7 @@ export default function HomeRoute() {
           </div>
           <div className="flex flex-wrap mx-auto">
             {displayedItems.map((item, index) => (
-              <KrisCard key={item.id} data={item} index={index} />
+              <KrisSingleCard key={item.id} oneitem={item} index={index} />
             ))}
           </div>
         </div>
