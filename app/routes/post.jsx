@@ -13,7 +13,7 @@ export async function loader() {
   if (typeof window !== 'undefined') {
     console.log("This is a production build");
     baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
-    currenturl= window.location.href;
+    currenturl= location.pathname;
   }
   else {
     baseUrl = "http://127.0.0.1:3000";
