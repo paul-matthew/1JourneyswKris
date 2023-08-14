@@ -3,7 +3,7 @@ import 'app/styles/style.css';
 import { useLoaderData } from "@remix-run/react";
 import { getDataFromStrapi } from "~/api/get-data-from-strapi.server";
 import Rellax from 'rellax';  
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 
@@ -18,6 +18,7 @@ export async function loader() {
   } else {
     console.log("This is a production build");
     baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
+    const location = useLocation();
     currenturl= location.pathname;
   }
   
