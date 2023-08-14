@@ -18,7 +18,7 @@ export async function loader() {
   } else {
     console.log("This is a production build");
     baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
-    url = new URL(window.location.href);
+    url = new URL(this.props.location.pathname);
   
   }
   
