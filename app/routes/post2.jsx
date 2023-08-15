@@ -4,39 +4,40 @@ import { useLoaderData } from "@remix-run/react";
 import { getDataFromStrapi } from "~/api/get-data-from-strapi.server";
 import Rellax from 'rellax';  
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export const useReactPath = () => {
-  if (process.env.NODE_ENV == 'production') {
-  const [urlpath, setPath] = useState(window.location.href);
+export async function loader() {
 
-  useEffect(() => {
-    setPath(window.location.href);
-  }, []); // This effect runs only on mount
-  }
-  else {urlpath='http://localhost:3000/post?id=1'}
-  return urlpath;
-};
-
-export async function loader(request) {
-  const urlpath = useReactPath();
+  if (process.env.NODE_ENV !== 'production') {
+    baseUrl = "http://127.0.0.1:3000";
+    currenturl='http://localhost:3000/post?id=1';//UPDATE, so not hard coded
+    console.log("This is a local build");
+  } else {
+    console.log("This is a production build");
+    baseUrl = "https://journeyswkris-938066b97596.herokuapp.com/"; //UPDATE
+    currenturl= window.location.href;
   
-  const url = new URL(urlpath);
-  const searchParams = new URLSearchParams(url.search);
-  const id = searchParams.get('id');
+  }
+  
+let url = new URL(currenturl);
+let searchParams = new URLSearchParams(url.search);
+let id = searchParams.get('id');
 
-  console.log("XXXXXXYYYYY", id);
-
+  console.log("XXXXXXYYYYY",id);
   const path = "kris-collections/";
   const query = "populate=*";
-  console.log("Loading data...");
   const response = await getDataFromStrapi(path, query);
   let data = response.data;
   let oneitem = data.find(item => item.id === parseInt(id));
-  console.log("trying thisXXX Data Loaded", oneitem);
+  console.log("trying thisXXX",oneitem);
 
-  return { info: [oneitem] }; // Return a single object, not an array
+  if (!Array.isArray(oneitem)) {
+    oneitem = [oneitem]; // Wrap data in an array if it's not already an array
+  }
+
+  return { info: oneitem };
+
 }
-
 
 export function KrisSingleCard({ oneitem}) {
   const path_medImage = oneitem.attributes.Image.data.attributes.formats.medium.url;
@@ -83,7 +84,7 @@ export function KrisSingleCard({ oneitem}) {
 }
 
 export default function FullPage() {
-  const { info } = useLoaderData({ loader });   
+  const { info } = useLoaderData();
   const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 1;
   const sectionRef = useRef(null);
@@ -236,4 +237,7 @@ export default function FullPage() {
     </div>   
     );
 }
+
+
+
 
