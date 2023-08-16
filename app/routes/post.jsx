@@ -5,22 +5,9 @@ import { getDataFromStrapi } from "~/api/get-data-from-strapi.server";
 import Rellax from 'rellax';  
 import { Link } from "react-router-dom";
 
-export const useReactPath = () => {
-  if (process.env.NODE_ENV == 'production') {
-  const [urlpath, setPath] = useState(window.location.href);
-
-  useEffect(() => {
-    setPath(window.location.href);
-  }, []); // This effect runs only on mount
-  }
-  else {urlpath='http://localhost:3000/post?id=1'}
-  return urlpath;
-};
-
-export async function loader(request) {
-  const urlpath = useReactPath();
-  
-  const url = new URL(urlpath);
+export function loader({ request }) {  
+  const url = new URL(request.url);
+  console.log("This is the url:",url);
   const searchParams = new URLSearchParams(url.search);
   const id = searchParams.get('id');
 
@@ -29,14 +16,38 @@ export async function loader(request) {
   const path = "kris-collections/";
   const query = "populate=*";
   console.log("Loading data...");
-  const response = await getDataFromStrapi(path, query);
-  let data = response.data;
-  let oneitem = data.find(item => item.id === parseInt(id));
-  console.log("trying thisXXX Data Loaded", oneitem);
+  
+  return getDataFromStrapi(path, query)
+    .then(response => {
+      let data = response.data;
+      let oneitem = data.find(item => item.id === parseInt(id));
+      console.log("trying thisXXX Data Loaded", oneitem);
+      return { info: [oneitem] }; // Return a single object, not an array
+    })
+    .catch(error => {
+      console.error("Error loading data:", error);
+      return { info: [] }; // Return empty data in case of an error
+    });
+};
 
-  return { info: [oneitem] }; // Return a single object, not an array
+export function Main({ currentUrl }) {
+  const [localCurrentUrl, setLocalCurrentUrl] = useState(currentUrl);
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      console.log('This is a production build man');
+      setLocalCurrentUrl(window.location.href);
+    } else {
+      console.log('This is a local build');
+      // Set the local URL for development if needed
+      // setLocalCurrentUrl('http://localhost:3000/post?id=1');
+    }
+  }, [currentUrl]);
+
+  return (
+    // Your JSX content for the Main component
+    <div>hi</div>
+  );
 }
-
 
 export function KrisSingleCard({ oneitem}) {
   const path_medImage = oneitem.attributes.Image.data.attributes.formats.medium.url;
@@ -56,17 +67,19 @@ export function KrisSingleCard({ oneitem}) {
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
         <div className="w-full mx-auto border-2 border-black shadow-whiterock" style={{width: "80vw", height: "100vh", border:"solid black"}}>
-          <div className="image-container relative overflow-hidden" style={{ width: "80vw", height: "70vh", border: "solid black" }}>
+          <div className="image-container relative overflow-hidden" style={{ width: "80vw", height: "50vh", border: "solid black" }}>
             <img
               className="object-cover w-full h-full transition-transform duration-300 transform-gpu hover:scale-110"
-              style={{ objectPosition: "center top-30" }}  // Adjust this line
+              style={{ objectPosition: "center top" }} 
               src={mediumImage}
               alt={oneitem.attributes.Title}
             />
           </div>
           <div className="flex justify-between p-4">
             <h1 className="text-base font-black tracking-widest text-black md:text-3xl lg:text-3xl font-display">{oneitem.attributes.Title}</h1>
-            <h2 className="text-base font-black tracking-widest text-black lg:text-1xl font-display">{oneitem.attributes.Date}</h2>
+            <h2 className="text-base font-black tracking-widest text-black font-display sm:text-xs md:text-md lg:text-xl xl:text-1xl">
+              {oneitem.attributes.Date}
+            </h2>
           </div>
           <div>
             <p className="mt-4 text-base font-medium leading-relaxed border-black lg:text-md px-4">
@@ -96,7 +109,7 @@ export default function FullPage() {
     <div className="w-full text-black bg-white">
       <div className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-1">
         <div className="flex flex-row items-center justify-between p-2 text-black">
-          <a href="./index.html"> 
+          <a href="/"> 
             <div className="text-lg font-semibold tracking-widest rounded-lg focus:outline-none focus:shadow-outline">
               <div className="inline-flex items-center">
                 <div className="w-2 h-2 p-2 mr-2 rounded-full bg-beta-300"></div>
@@ -127,21 +140,20 @@ export default function FullPage() {
             <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./index"
+                to="/"
               >home
               </Link>
             </li>
-
-            <li>
+            {/* <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
                 to="./blog"
                 >blog post</Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./contact"
+                to="/contact"
                 >contact</Link>
             </li>
           </ul>
@@ -150,7 +162,7 @@ export default function FullPage() {
     </div>
     <main>
       <section id='posts' ref={sectionRef} className="bg-white">
-        <div className="container px-5 py-24 mx-auto text-black">
+        <div className="container px-5 py-4 mx-auto text-black">
           <div className="flex flex-wrap mx-auto">
             <div
               data-rellax-speed="-1"
@@ -198,11 +210,6 @@ export default function FullPage() {
           <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0 hover:text-blue-500">
             <a href="https://www.wickedtemplates.com/pricing.html" rel="noopener noreferrer">Pricing</a>
           </p> */}
-          <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:py-2 sm:mt-0">
-          <a href="https://sketchfab.com/3d-models/plane-paper-dart-8951aa7cebbf42218f31b2e152b1f752">Plane Paper Dart </a> by 
-          <a href="https://sketchfab.com/Sketchfab"> Sketchfab</a> licensed under 
-          <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0</a>
-          </p>
         </nav>
         <span className="inline-flex justify-center mt-4 sm:ml-auto sm:mt-0 sm:justify-start lg:ml-auto">
           <a className="text-white hover:text-blue-500">

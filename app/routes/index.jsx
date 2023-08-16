@@ -83,9 +83,10 @@ export function KrisCard({ data, index }) {
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
         <div className="w-full mx-auto border-2 border-black shadow-whiterock">
-        <div className="image-container relative overflow-hidden">
+        <div className="image-container relative overflow-hidden h-150">
           <img
-            className="object-scale-down w-full transition-transform duration-300 transform-gpu hover:scale-110"
+            className="object-cover w-full h-60 transition-transform duration-300 transform-gpu hover:scale-110"
+            style={{ objectPosition: "center top" }} 
             src={mediumImage}
             alt={data.attributes.Title}
           />
@@ -303,13 +304,12 @@ export default function HomeRoute() {
                 >home
                 </Link>
               </li>
-
-              <li>
+              {/* <li>
                 <Link
                   className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
                   to="./blog"
                   >blog post</Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
