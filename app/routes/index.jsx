@@ -123,31 +123,26 @@ export default function HomeRoute() {
   const sectionRef = useRef(null);
   let loadedModel;
 
-  const handlePrevious = () => {
-    if (startIndex - itemsPerPage >= 0) {
-      setStartIndex(startIndex - itemsPerPage);
-      scrollToSection();
-    }
-  };
-
-  const handleNext = () => {
-    if (startIndex + itemsPerPage < info.length) {
-      setStartIndex(startIndex + itemsPerPage);
-      scrollToSection();
-    }
-  };
-
-  const scrollToSection = () => {
-    sectionRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const displayedItems = info.slice(startIndex, startIndex + itemsPerPage);
 
   const isFirstPage = startIndex === 0;
   const isLastPage = startIndex + itemsPerPage >= info.length;
 
-  useEffect(() => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prevState) => !prevState);
+  };
 
+  useEffect(() => {
+    //DropDown button
+    const closeDropdown = (event) => {
+      if (!event.target.closest('.menu-button')) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('click', closeDropdown);
+
+    //Zoom Scroll
     const handleScroll = () => {
       const scrollOffset = window.scrollY;
       const zoomSection = document.getElementById('zoom-section');
@@ -181,49 +176,49 @@ export default function HomeRoute() {
     let loadedModel;
     import('three/examples/jsm/loaders/GLTFLoader.js')
     
-  .then(({ GLTFLoader }) => {
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load('./plane/scene.gltf', (gltfScene) => {
-      loadedModel = gltfScene;
-      adjustModelBasedOnScreenSize(gltfScene);
+    .then(({ GLTFLoader }) => {
+      const gltfLoader = new GLTFLoader();
+      gltfLoader.load('./plane/scene.gltf', (gltfScene) => {
+        loadedModel = gltfScene;
+        adjustModelBasedOnScreenSize(gltfScene);
 
-      // Adjust the model's position, rotation, scale as needed
-      // gltfScene.scene.rotation.y = Math.PI / 8;
-      // gltfScene.scene.position.y = 3;
-      // gltfScene.scene.scale.set(1, 1, 1);
+        // Adjust the model's position, rotation, scale as needed
+        // gltfScene.scene.rotation.y = Math.PI / 8;
+        // gltfScene.scene.position.y = 3;
+        // gltfScene.scene.scale.set(1, 1, 1);
 
-      // Add the model to the scene
-      test.scene.add(gltfScene.scene);
+        // Add the model to the scene
+        test.scene.add(gltfScene.scene);
 
-      // Initialize AnimationMixer
-      const mixer = new THREE.AnimationMixer(gltfScene.scene);
+        // Initialize AnimationMixer
+        const mixer = new THREE.AnimationMixer(gltfScene.scene);
 
-      // Load animations from the gltfScene
-      const animations = gltfScene.animations;
-      const actions = animations.map(animation => mixer.clipAction(animation));
+        // Load animations from the gltfScene
+        const animations = gltfScene.animations;
+        const actions = animations.map(animation => mixer.clipAction(animation));
 
-      // Start playing the animations
-      actions.forEach(action => action.play());
+        // Start playing the animations
+        actions.forEach(action => action.play());
 
-      // Create an animate function for rendering
-      const animate = () => {
-        requestAnimationFrame(animate);
+        // Create an animate function for rendering
+        const animate = () => {
+          requestAnimationFrame(animate);
 
-        // Update the animation mixer
-        const delta = test.clock.getDelta();
-        mixer.update(delta);
+          // Update the animation mixer
+          const delta = test.clock.getDelta();
+          mixer.update(delta);
 
-        renderer.render(test.scene, test.camera);
-      };
+          renderer.render(test.scene, test.camera);
+        };
 
-      // Start the animation loop
-      animate();
+        // Start the animation loop
+        animate();
+      });
+    })
+    .catch(error => {
+      // Handle any errors that might occur during the import
+      console.error('Error importing GLTFLoader:', error);
     });
-  })
-  .catch(error => {
-    // Handle any errors that might occur during the import
-    console.error('Error importing GLTFLoader:', error);
-  });
 
     function adjustModelBasedOnScreenSize(gltfScene) {
       const screenWidth = window.innerWidth;
@@ -251,8 +246,10 @@ export default function HomeRoute() {
       }
       // gltfScene.scene.classList.add('model-transition');
     }
+    
   
     return () => {
+      document.removeEventListener('click', closeDropdown);
       window.removeEventListener('scroll', handleScroll);
       if (loadedModel) {
         loadedModel.scene.traverse(child => {
@@ -268,61 +265,62 @@ export default function HomeRoute() {
   return (
     <div className="bg-white">
       <div className="w-full text-black bg-white">
-        <div className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-1">
+        <div className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:flex-row md:px-1">
           <div className="flex flex-row items-center justify-between p-2 text-black">
-            <a href="./index.html"> 
-              <div className="text-lg font-semibold tracking-widest rounded-lg focus:outline-none focus:shadow-outline">
-                <div className="inline-flex items-center">
-                  <div className="w-2 h-2 p-2 mr-2 rounded-full bg-beta-300"></div>
-                  <h2 className="text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform tracking-relaxed hover:text-beta-300">
-                    JourneyswithKris
-                  </h2>
-                </div>
-              </div>
-            </a>
-            <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline">
-              <svg fill="currentColor" viewBox="0 0 20 20" className="w-12 h-12">
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
-          <nav className="flex-col flex-grow hidden pb-4 md:pb-0 md:flex md:justify-end md:flex-row z-10">
-            <ul className="items-center inline-block list-none lg:inline-flex">
+            <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+              <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-2">
+                <a href="/" className="flex items-center">
+                    <span className="text-2xl font-semibold whitespace-nowrap dark:text-white">JourneyswithKris</span>
+                </a>
+
+
+
+
+                <div className="md:hidden flex md:order-2 relative dropdown-container">
+        <button
+          type="button"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden menu-button"
+          onClick={toggleDropdown}
+        >
+          <svg className="w-5 h-5" ariaHidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
+          </svg>
+        </button>
+        {isDropdownOpen && (
+          <div className="absolute flex top-1 right-0 mt-2 w-48 rounded-lg shadow-lg">
+            <ul className="flex flex-col px-24 py-3 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0">
               <li>
-                <Link
-                  className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                  to="/"
-                >home
-                </Link>
+                <a href="/allposts" className="block py-2 pl-3 pr-4 text-white bg-blue-700 md:bg-transparent md:p-0 border-black border">POSTS</a>
               </li>
-              {/* <li>
-                <Link
-                  className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                  to="./blog"
-                  >blog post</Link>
-              </li> */}
               <li>
-                <Link
-                  className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                  to="./contact"
-                  >contact</Link>
+                <a href="/contact" className="block py-2 pl-3 pr-4 text-white bg-blue-700 md:bg-transparent md:p-0 border-black border">CONTACT</a>
               </li>
             </ul>
-          </nav>
+          </div>
+        )}
+      </div>
+
+
+
+
+                <div className="items-center hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                  <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <li>
+                      <a href="/allposts" className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:p-0" ariaCurrent="page">POSTS</a>
+                    </li>
+                    <li>
+                      <a href="/contact" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">CONTACT</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
       </div>
     <main>
       <section className="h-screen relative">
-      <div className="h-screen relative" style={{overflowX:'hidden'}} >
+      <div className="h-screen relative" style={{overflow:'hidden'}} >
       <div
         id="zoom-section"
         className="h-screen relative"
@@ -335,6 +333,7 @@ export default function HomeRoute() {
           transformOrigin: 'center',
           transition: 'transform 0.2s ease-out',
           zIndex: '0',
+          minHeight: '100vh',
         }}
       >
         <canvas
@@ -352,17 +351,17 @@ export default function HomeRoute() {
       </div>
       <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-between">
       <div className="p-3 text-white">
-        <h1 className="text-4xl font-bold tracking-tighter lg:text-6xl">
-          <span className="italic leading-none">Journeys with</span>
+        <h1 className="text-4xl font-bold tracking-tighter lg:text-6xl hidden md:block py-2">
+          <span className="italic leading-none"style={{ textShadow: "0 0 2px black", color: "white" }}>Keep your Job.</span>
           <br />
-          <span className="text-6xl leading-none uppercase lg:text-12xl">KRIS</span>
+          <span className="text-6xl leading-none uppercase lg:text-12xl"style={{ textShadow: "0 0 2px black", color: "white" }}>See the World.</span>
         </h1>
       </div>
       <button onClick={() => {
         document.getElementById('posts').scrollIntoView({ behavior: 'smooth' });
       }}
       className="absolute bottom-36 right-8 bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-md shadow-xl transform z-20"
-      >See my Posts
+      >Latest Posts
       </button>
     </div>
       </section>
@@ -380,18 +379,11 @@ export default function HomeRoute() {
               <KrisCard key={item.id} data={item} index={index} />
             ))}
           </div>
-          {info.length > itemsPerPage && (
-          <div className="flex justify-center mt-20 space-x-4">
-            {!isFirstPage && (
-              <button className="text-white text-3xl underline" onClick={handlePrevious}>
-                Previous
-              </button>)}
-            {!isLastPage && (
-              <a className="text-white text-3xl underline hover:text-blue-500" href="/fullportfolio">
-                Browse Portfolio
-              </a>)}
+          <div className="justify-center flex flex-center">
+            <button className="bottom-36 right-8 bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-md shadow-xl transform z-20">
+              <a href='/allposts'>All Posts</a>
+            </button>
           </div>
-          )}
         </div>
       </section>
     </main>

@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prevState) => !prevState);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,65 +21,76 @@ const ContactForm = () => {
     setMessage('');
   };
 
+  useEffect(() => {
+    //DropDown button
+    const closeDropdown = (event) => {
+      if (!event.target.closest('.menu-button')) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('click', closeDropdown);
+
+    return () => {
+      document.removeEventListener('click', closeDropdown);
+    };
+}, []);
+
   return (
     <div className="bg-white">
-    <div className="w-full text-black bg-white">
-      <div className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-1">
-        <div className="flex flex-row items-center justify-between p-2 text-black">
-          <a href="/"> 
-            <div className="text-lg font-semibold tracking-widest rounded-lg focus:outline-none focus:shadow-outline">
-              <div className="inline-flex items-center">
-                <div className="w-2 h-2 p-2 mr-2 rounded-full bg-beta-300"></div>
-                <h2 className="text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform tracking-relaxed hover:text-beta-300">
-                  JourneyswithKris
-                </h2>
+      <div className="w-full text-black bg-white">
+        <div className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:flex-row md:px-1">
+          <div className="flex flex-row items-center justify-between p-2 text-black">
+          <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+            <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-2">
+              <a href="/" className="flex items-center">
+                  <span className="text-2xl font-semibold whitespace-nowrap dark:text-white">JourneyswithKris</span>
+              </a>
+
+
+              <div className="md:hidden flex md:order-2 relative dropdown-container">
+                <button
+                  type="button"
+                  className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden menu-button"
+                  onClick={toggleDropdown}
+                >
+                  <svg className="w-5 h-5" ariaHidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
+                  </svg>
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute flex top-1 right-0 mt-2 w-48 rounded-lg shadow-lg">
+                    <ul className="flex flex-col px-24 py-3 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0">
+                      <li>
+                        <a href="/allposts" className="block py-2 pl-3 pr-4 text-white bg-blue-700 md:bg-transparent md:p-0 border-black border">POSTS</a>
+                      </li>
+                      <li>
+                        <a href="/contact" className="block py-2 pl-3 pr-4 text-white bg-blue-700 md:bg-transparent md:p-0 border-black border">CONTACT</a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+
+
+              <div className="items-center hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                  <li>
+                    <a href="/allposts" className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:p-0" ariaCurrent="page">POSTS</a>
+                  </li>
+                  <li>
+                    <a href="/contact" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">CONTACT</a>
+                  </li>
+                </ul>
               </div>
             </div>
-          </a>
-          <button
-      className="rounded-lg md:hidden focus:outline-none focus:shadow-outline">
-      <svg fill="currentColor" viewBox="0 0 20 20" className="w-12 h-12">
-        <path
-          fillRule="evenodd"
-          d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-          clipRule="evenodd"
-        />
-        <path
-          fillRule="evenodd"
-          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-          clipRule="evenodd"
-        />
-      </svg>
-          </button>
+          </nav>
+          </div>
         </div>
-        <nav className="flex-col flex-grow hidden pb-4 md:pb-0 md:flex md:justify-end md:flex-row z-10">
-          <ul className="items-center inline-block list-none lg:inline-flex">
-            <li>
-              <Link
-                className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="/"
-              >home
-              </Link>
-            </li>
-            {/* <li>
-              <Link
-                className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="./blog"
-                >blog post</Link>
-            </li> */}
-            <li>
-              <Link
-                className="px-4 text-lg font-bold tracking-tighter transition duration-500 ease-in-out transform rounded-lg hover:text-black sr-only:mt-2 tracking-relaxed text-beta-300 lg:ml-4 focus:outline-none focus:shadow-outline"
-                to="/contact"
-                >contact</Link>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </div>
     <main>
       <section id='contact' className="bg-white">
-        <div className="container px-5 py-4 mx-auto text-black">
+        <div className="container px-5 py-14 mx-auto text-black">
           <div className="flex flex-wrap mx-auto">
             <div
               data-rellax-speed="-1"
