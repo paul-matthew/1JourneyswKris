@@ -60,7 +60,7 @@ export function KrisSingleCard({ oneitem}) {
   return (
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
-        <div className="w-full mx-auto border-2 border-black shadow-whiterock" style={{width: "80vw", height: "100%", border:"solid black"}}>
+        <div className="w-full mx-auto border-2 border-black shadow-whiterock shadow-2xl" style={{width: "80vw", height: "100%", border:"solid black"}}>
           <div className="image-container relative overflow-hidden" style={{ width: "80vw", height: "50vh", border: "solid black" }}>
             <img
               className="object-cover w-full h-full transition-transform duration-300 transform-gpu hover:scale-110"
@@ -175,16 +175,18 @@ export default function FullPage() {
               data-rellax-mobile-speed="0"
               className="flex items-center gap-6"
             >
-              <h2 className="text-7xl font-bold text-black xl:text-8xl mt-5" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
-                Property
-              </h2>
+              {displayedItems.map((item, index) => (
+                <h2 key={item.id} className="text-7xl font-bold text-black xl:text-8xl mt-5" style={{ fontFamily: 'Calistoga' }}>
+                  {item.attributes.Title}
+                </h2>
+              ))}
             </div>
           </div>
           <div className="flex flex-wrap mx-auto">
             {displayedItems.map((item, index) => (
               <KrisSingleCard key={item.id} oneitem={item} index={index} />
             ))}
-          </div>
+          </div>For more detailed information on this property please <a href='./contact' style={{color:'blue'}}>Contact Us</a>.
         </div>
       </section>
     </main>

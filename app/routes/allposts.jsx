@@ -58,7 +58,7 @@ export function KrisCard({ data, index }) {
   return (
     <div className="w-full lg:w-2/4">
       <div className="flex flex-wrap justify-start p-4">
-        <div className="w-full mx-auto border-2 border-black shadow-whiterock">
+        <div className="w-full mx-auto border-2 border-black shadow-whiterock shadow-2xl">
         <div className="image-container relative overflow-hidden h-150">
           <img
             className="object-cover w-full h-60 transition-transform duration-300 transform-gpu hover:scale-110"
@@ -80,7 +80,7 @@ export function KrisCard({ data, index }) {
             <div className="py-4">
             <Link
               to={`/post?id=${data.id}`}
-              className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar font-base text-beta-300 shadow-whiterock bg-black transform transition-transform hover:scale-110 hover:bg-blue-600 text-white rounded-md py-3 px-6 inline-block"
+              className="p-3 pl-4 font-bold tracking-wide transition duration-500 ease-in-out transform hover:shadow-cinnabar font-base text-beta-300 shadow-whiterock shadow-2xl bg-black transform transition-transform hover:scale-110 hover:bg-blue-600 text-white rounded-md py-3 px-6 inline-block"
             >Read more &#8594;
             </Link>
             </div>
@@ -177,7 +177,7 @@ export default function HomeRoute() {
         <div className="container px-5 py-14 mx-auto text-black">
           <div className="flex flex-wrap mx-auto">
             <div data-rellax-speed="-1" data-rellax-xs-speed="0" data-rellax-mobile-speed="0" className="flex items-center gap-6">
-              <h2 className="text-7xl font-bold text-black xl:text-8xl mt-5" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+              <h2 className="text-7xl font-bold text-black xl:text-8xl mt-5" style={{ fontFamily: 'Calistoga' }}>
                 Properties
               </h2>
             </div>
@@ -215,7 +215,7 @@ export default function HomeRoute() {
           </div>
         </a>
         <p className="mt-4 text-sm text-white sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-blueGray-200 sm:py-2 sm:mt-0 flex flex-row justify-center lg:justify-start">
-          © {new Date().getFullYear()};
+          © {new Date().getFullYear()}
           <div className="flex flex-row items-center justify-between md:px-4 lg:px-4">
             <a href="https://pmdaybreak.com" className="ml-1 text-white hover:text-blue-500" rel="noopener noreferrer" target="_blank">
               PM Daybreak Designs

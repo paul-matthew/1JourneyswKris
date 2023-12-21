@@ -93,7 +93,7 @@ const ContactForm = () => {
               data-rellax-mobile-speed="0"
               className="flex items-center gap-6"
             >
-              <h2 className="text-7xl font-bold text-black xl:text-8xl mt-5" style={{ fontFamily: 'Covered by Your Grace', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>
+              <h2 className="text-7xl font-bold text-black xl:text-8xl mt-5" style={{ fontFamily: 'Calistoga'}}>
                 Contact
               </h2>
             </div>
