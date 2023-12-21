@@ -14,20 +14,20 @@ import styles from "./styles/app.css"
 
 export const meta = () => ({
   charset: "utf-8",
-  title: "Journeys with Kris",
+  title: "Daybreak Travel",
   viewport: "width=device-width,initial-scale=1",
   meta: [
     {
       property: "og:title",
-      content: "Journeys with Kris",
+      content: "Daybreak Travel: Luxury Property Website Design",
     },
     {
       property: "og:description",
-      content: "Journeys with Kris - travel content and information to help you travel the world while maintaining your job.",
+      content: "Daybreak Travel: Luxury Property Website Design",
     },
     {
       property: "og:image",
-      content: "url(/kris-og.jpg)", 
+      content: "url(/logo-og.jpg)", 
     },
   ],
 });
