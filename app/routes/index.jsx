@@ -372,7 +372,7 @@ export default function HomeRoute() {
             </div>
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center w-50 justify-center items-center flex flex-col bg-gray-600 bg-opacity-30 p-5">
               <h1 className="text-4xl sm:text-4xl md:text-4xl lg:text-6xl font-bold text-white">
-                Exclusive Rental Property<span class='block'>Listings</span>
+                Exclusive Rental Property Listings
               </h1>
             </div>
             <button onClick={() => {
