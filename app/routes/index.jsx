@@ -122,6 +122,7 @@ export default function HomeRoute() {
   const itemsPerPage = 4;
   const sectionRef = useRef(null);
   let loadedModel;
+  const videoRef = useRef(null);
 
   const displayedItems = info.slice(startIndex, startIndex + itemsPerPage);
 
@@ -141,6 +142,11 @@ export default function HomeRoute() {
       }
     };
     document.addEventListener('click', closeDropdown);
+
+    const isMobile = window.innerWidth <= 767;
+    const videoSource = isMobile ? '/beachroad.mp4' : '/Oceanview.mp4';
+    videoRef.current.src = videoSource;
+
 
     //Zoom Scroll
     const handleScroll = () => {
@@ -230,7 +236,7 @@ export default function HomeRoute() {
         gltfScene.scene.scale.set(1, 1, 1);
       } else if (screenWidth >= 500 && screenWidth < 768) {
         gltfScene.scene.rotation.y = Math.PI / 0.79;
-        gltfScene.scene.position.y = 1;
+        gltfScene.scene.position.y = -1;
         gltfScene.scene.position.x = 6;
         gltfScene.scene.scale.set(1.5, 1.5, 1.5);
       } else if (screenWidth >= 768 && screenWidth < 1024) {
@@ -332,6 +338,7 @@ export default function HomeRoute() {
               }}
             ></div>  
             <video
+              ref={videoRef}
               autoPlay
               loop
               muted
@@ -344,8 +351,6 @@ export default function HomeRoute() {
                 zIndex: '-1',
               }}
             >
-              <source src="/Oceanview.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
             </div>
         
@@ -360,7 +365,7 @@ export default function HomeRoute() {
                 zIndex: 1, // Make the canvas appear on top
               }}
             />
-            </div>
+          </div>
           </div>
           <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-between">
             <div className="p-3 text-white">
@@ -378,7 +383,7 @@ export default function HomeRoute() {
             <button onClick={() => {
               document.getElementById('posts').scrollIntoView({ behavior: 'smooth' });
             }}
-            className="absolute bottom-20 left-10 bg-black hover:bg-purple-600 transform transition-transform hover:scale-110 text-xl shadow-2xl font-semibold whitespace-nowrap text-white py-3 px-6 rounded-md shadow-xl transform z-10"
+            className="absolute bottom-20 left-10 bg-black hover:bg-purple-600 transform transition-transform hover:scale-110 text-sm shadow-2xl font-semibold whitespace-nowrap text-white p-2 rounded-md shadow-xl transform z-10"
             >Explore Properties
             </button>
           </div>

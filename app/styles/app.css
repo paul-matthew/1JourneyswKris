@@ -594,6 +594,10 @@ video {
   bottom: 5rem;
 }
 
+.bottom-10 {
+  bottom: 2.5rem;
+}
+
 .z-20 {
   z-index: 20;
 }
@@ -883,6 +887,10 @@ video {
 
 .p-10 {
   padding: 2.5rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
 }
 
 .px-2 {
