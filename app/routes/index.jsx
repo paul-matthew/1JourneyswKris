@@ -252,8 +252,6 @@ export default function HomeRoute() {
       }
       // gltfScene.scene.classList.add('model-transition');
     }
-    
-  
     return () => {
       document.removeEventListener('click', closeDropdown);
       window.removeEventListener('scroll', handleScroll);
